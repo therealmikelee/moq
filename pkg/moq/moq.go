@@ -342,7 +342,9 @@ func stripVendorPath(p string) string {
 // Copyright (c) 2015 Ernesto Jiménez
 func stripGopath(p string) string {
 	for _, gopath := range gopaths() {
-		p = strings.TrimPrefix(p, path.Join(gopath, "src")+"/")
+		base := strings.TrimSuffix(gopath, string(os.PathSeparator))
+		pref := strings.Join([]string{base, "src"}, string(os.PathSeparator)) + string(os.PathSeparator)
+		p = strings.TrimPrefix(p, pref)
 	}
 	return p
 }
